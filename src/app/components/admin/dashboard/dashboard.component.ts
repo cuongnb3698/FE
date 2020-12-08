@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgProgressComponent } from 'ngx-progressbar';
 import { Role } from 'src/app/services/ERole';
 declare const $: any;
 @Component({
@@ -9,12 +10,11 @@ declare const $: any;
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
+  @ViewChild(NgProgressComponent) progressBar!: NgProgressComponent;
   constructor(private router:Router,private _location: Location) { }
   isCollapsed = false;
   ngOnInit(): void {
       var fullHeight = function() {
-
         $('.js-fullheight').css('height', $(window).height());
         $(window).resize(function(){
           $('.js-fullheight').css('height', $(window).height());
@@ -44,5 +44,7 @@ export class DashboardComponent implements OnInit {
       }
       return true;
   };
-
+  Click(){
+    this.progressBar.start();
+}
 }

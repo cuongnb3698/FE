@@ -2,12 +2,13 @@ import { environment } from './../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginModel } from '../models/UserModel';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private router:Router) { }
 
 
   login(data){
@@ -18,6 +19,10 @@ export class AuthenticationService {
 
   }
 
+  logout(){
+    localStorage.clear();
+    this.router.navigateByUrl("login");
+  }
 
   getUser(){
     return this.http.get(environment.ApiUrl+'userprofile');

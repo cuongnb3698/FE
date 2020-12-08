@@ -42,8 +42,6 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {OverlayModule} from '@angular/cdk/overlay';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 @NgModule({
   exports: [
     A11yModule,
@@ -89,8 +87,7 @@ import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-
     MatTreeModule,
     OverlayModule,
     PortalModule,
-    ScrollingModule,
-    BrowserAnimationsModule,
+    ScrollingModule
   ]
 })
 export class MaterialModule {}

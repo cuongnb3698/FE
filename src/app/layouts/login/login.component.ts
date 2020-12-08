@@ -1,10 +1,11 @@
 import { AuthenticationService } from './../../services/userService/authentication.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CurdService } from 'src/app/services/crud/curd.service';
 import { Role } from 'src/app/services/ERole';
+import { NgProgressComponent } from 'ngx-progressbar';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,7 @@ import { Role } from 'src/app/services/ERole';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  @ViewChild(NgProgressComponent) progressBar!: NgProgressComponent;
   dataForm: FormGroup;
   returnUrl: string;
   constructor(private route: ActivatedRoute, private fb: FormBuilder,

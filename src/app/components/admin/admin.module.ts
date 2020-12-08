@@ -12,12 +12,14 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 // material design
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { MaterialModule } from '../../material.module';
-import { BrowserModule } from '@angular/platform-browser';
 import { NgxPopper } from 'angular-popper';
 import { NavbarComponent } from './navbar/navbar.component';
 import { TablesComponent } from './tables/tables.component';
 import { LbdChartComponent } from './directives/lbd-chart/lbd-chart.component';
 import { BaocaoComponent } from './baocao/baocao.component';
+import { NgProgressModule } from 'ngx-progressbar';
+import { HttpClientModule } from '@angular/common/http';
+import { LoaitudienComponent } from './danhmuc/loaitudien/loaitudien.component';
 
 @NgModule({
   imports: [
@@ -28,15 +30,15 @@ import { BaocaoComponent } from './baocao/baocao.component';
     ToastrModule.forRoot(),
     NgxPaginationModule,
     Ng2SearchPipeModule,
-    // MaterialModule,
+    MaterialModule,
     NgxPopper,
-
-
+    NgProgressModule,
+    HttpClientModule,
     ],
   exports: [],
-  declarations: [DashboardComponent, NavbarComponent,NavbarComponent,TablesComponent,LbdChartComponent, BaocaoComponent,BaocaoComponent],
+  declarations: [DashboardComponent, NavbarComponent,NavbarComponent,TablesComponent,LbdChartComponent, BaocaoComponent,BaocaoComponent,LoaitudienComponent],
   providers: [],
   bootstrap: [DashboardComponent]
-  
+
 })
 export class AdminModule { }

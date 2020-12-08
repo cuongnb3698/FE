@@ -66,17 +66,17 @@
       <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
-    <div class="userProfile">
-      <div class="user">
+    <div class="userProfile" (click)="Dropdown()">
+      <div class="user"  >
       <span class="name">Nguyễn Bá Cường</span>
       <img src="assets/img/avatar/logo_user_male.jpg" alt="">
     </div>
-      <div class="acction-user">
+      <div class="acction-user" id="acction-dropdown" *ngIf="dropdown">
           <ul>
-            <li>asdasdasdasdasdasd</li>
-            <li>asdasdasdasdasdasd</li>
-            <li>asdasdasdasdasdasd</li>
-            <li>asdasdasdasdasdasd</li>
+            <li><a>Thông tin tài khoản</a></li>
+            <li><a>Đổi mật khẩu</a></li>
+            <li><a>Cài đặt</a></li>
+            <li><a (click)="Logout()">Đăng xuất</a></li>
           </ul>
       </div>
     </div>

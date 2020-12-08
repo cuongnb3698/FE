@@ -21,6 +21,7 @@ import { CommonModule } from '@angular/common';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { MaterialModule } from './material.module';
 import { SharedModule } from './share.module';
+import { NgProgressModule } from 'ngx-progressbar';
 
 //Component
 
@@ -46,6 +47,7 @@ import { SharedModule } from './share.module';
     Ng2SearchPipeModule,
     SharedModule,
     MaterialModule,
+    NgProgressModule
   ],
   providers: [AuthenticationService,
     { provide: HTTP_INTERCEPTORS,

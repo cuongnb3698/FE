@@ -1,0 +1,15 @@
+
+.table{
+  width: 50%;
+}
+table{
+  width: 100%;
+}
+mat-form-field{
+  width: 60%;
+  font-size: 17px;
+}
+.box-right button{
+  margin: 10px;
+}
+
