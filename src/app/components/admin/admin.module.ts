@@ -35,6 +35,8 @@ import { BaocaoComponent } from './baocao/baocao.component';
     ],
   exports: [],
   declarations: [DashboardComponent, NavbarComponent,NavbarComponent,TablesComponent,LbdChartComponent, BaocaoComponent,BaocaoComponent],
-  providers: []
+  providers: [],
+  bootstrap: [DashboardComponent]
+  
 })
 export class AdminModule { }
