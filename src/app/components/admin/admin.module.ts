@@ -1,3 +1,4 @@
+import { TudienComponent } from './danhmuc/tudien/tudien.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -36,7 +37,7 @@ import { LoaitudienComponent } from './danhmuc/loaitudien/loaitudien.component';
     HttpClientModule,
     ],
   exports: [],
-  declarations: [DashboardComponent, NavbarComponent,NavbarComponent,TablesComponent,LbdChartComponent, BaocaoComponent,BaocaoComponent,LoaitudienComponent],
+  declarations: [DashboardComponent, NavbarComponent,NavbarComponent,TablesComponent,LbdChartComponent, BaocaoComponent,BaocaoComponent,LoaitudienComponent,TudienComponent],
   providers: [],
   bootstrap: [DashboardComponent]
 

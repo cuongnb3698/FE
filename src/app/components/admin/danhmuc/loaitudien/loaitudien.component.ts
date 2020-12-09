@@ -1,4 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { GuidId } from './../../../../services/ERole';
+import { LoaiTuDien } from './../../../../models/loaitudien.model';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -9,36 +13,48 @@ import { LoaitudienService } from 'src/app/services/danhmuc/loaitudien.service';
   templateUrl: './loaitudien.component.html',
   styleUrls: ['./loaitudien.component.css']
 })
-export class LoaitudienComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
-
+export class LoaitudienComponent implements OnInit  {
+  displayedColumns: string[] = ['stt', 'name', 'ma', 'action'];
+  dataSource :any;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-  }
-  constructor(private loaitudien:LoaitudienService) { }
+
+  constructor(private loaitudien:LoaitudienService,private fb:FormBuilder,private toarst:ToastrService) { }  
   // DATA SEARCH
-  searchTuDien = {
+  search = {
     sSearch : '',
-    pageIndex : 1,
+    pageIndex : 0,
     pageSize : 10
   }
-
-
+  IdNull = GuidId.EmptyId;
+  TotalItem:number;
+  dataLoaiTuDien:FormGroup;
+  dataRes: Array<LoaiTuDien>;
   ngOnInit(): void {
     this.getPage();
+    this.dataLoaiTuDien = this.fb.group({
+      Id : this.IdNull,
+      MaLoai: "",
+      Ten: ""
+    });
   }
-
+  // CHANGE PAGE INDEX OR PAGE SIZE
+  getPaginate(event){
+    this.search.pageIndex = event.pageIndex;
+    this.search.pageSize = event.pageSize;
+    this.getPage();
+    
+    
+  }
   // GET PAGE LOAI TU DIEN
   getPage(){
-    console.log(this.searchTuDien);
-
-    this.loaitudien.GetPage(this.searchTuDien).subscribe(
-      (res)=>{
-        console.log(res);
+    this.loaitudien.GetPage((this.search)).subscribe(
+      (res:any)=>{
+        const ELEMENT_DATA = res.list;
+        this.TotalItem = res.total;
+        this.dataSource = ELEMENT_DATA;
+        this.dataSource.paginator = this.paginator;
+        
       },
       err => {
         console.log(err);
@@ -46,34 +62,59 @@ export class LoaitudienComponent implements OnInit {
       }
     )
   }
+  SelectRow(item){
+    console.log(item);
+    this.dataLoaiTuDien = this.fb.group({
+      Id : item.id,
+      MaLoai: item.maLoai,
+      Ten: item.ten
+    })
+    
+  }
+  // SUA LOAI TU DIEN
+  // THEM LOAI TU DIEN
+  CreateOrUpdate(){
+    if(this.dataLoaiTuDien.value.Id == this.IdNull){
+      this.loaitudien.Create(this.dataLoaiTuDien.value).subscribe(
+        (res)=>{
+          this.getPage();
+          this.toarst.success("Cập nhật thành công !", "Thông báo");
+        },
+        err =>{
+          console.log(err);
+          this.toarst.error("Thao tác thất bại!", "Thông báo");
+        });
+    }
+    else{
+      this.loaitudien.Update(this.dataLoaiTuDien.value).subscribe(
+        (res)=>{
+          this.getPage();
+          this.toarst.success("Cập nhật thành công !", "Thông báo");
+        },
+        err =>{
+          console.log(err);
+          this.toarst.error("Thao tác thất bại!", "Thông báo");
+        });
+    }
+  }
 
+  DeleteById(id){
+    this.loaitudien.Delete(id).subscribe(
+      (res)=>{
+        this.getPage();
+        this.toarst.success("Cập nhật thành công !", "Thông báo");
+      },
+      err =>{
+        console.log(err);
+        this.toarst.error("Thao tác thất bại!", "Thông báo");
+      });
+  }
+  //
+  Clear(){
+    this.dataLoaiTuDien = this.fb.group({
+      Id : this.IdNull,
+      MaLoai: "",
+      Ten: ""
+    });
+  }
 }
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  {position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na'},
-  {position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg'},
-  {position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al'},
-  {position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si'},
-  {position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P'},
-  {position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S'},
-  {position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl'},
-  {position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar'},
-  {position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K'},
-  {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
-];

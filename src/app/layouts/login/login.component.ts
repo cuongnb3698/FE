@@ -56,7 +56,8 @@ export class LoginComponent implements OnInit {
   }
   DangNhap(data) {
     this.authent.login(data).subscribe(
-      (res :any) =>{
+      (res :any) =>{console.log(res);
+      
         localStorage.setItem('token',res.token);
         this.authent.getUser().subscribe(
           (res:any) =>{

@@ -3,9 +3,7 @@ const {app, BrowserWindow} = require('electron')
     const path = require("path");
 
     let mainWindow
-    require('electron-reload')(__dirname, {
-      electron: path.join(__dirname, 'node_modules/.bin/electron.cmd')
-  });
+
     function createWindow () {
       mainWindow = new BrowserWindow({
         width: 800,

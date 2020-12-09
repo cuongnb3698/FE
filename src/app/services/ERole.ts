@@ -4,3 +4,6 @@ export enum Role {
   GiamDoc = "giamdoc",
   KhachHang = "khachhang"
 }
+export enum GuidId {
+  EmptyId =  "00000000-0000-0000-0000-000000000000"
+}

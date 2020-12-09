@@ -5,8 +5,8 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class LoaitudienService {
-  baseUri = 'loaitudien';
+export class TudienService {
+  baseUri = 'tudien';
   constructor(private http : HttpClient) { }
   GetPage(search){
     return this.http.post(environment.ApiUrl + this.baseUri +'/getPage', search);
