@@ -19,13 +19,14 @@ export class LoaitudienComponent implements OnInit  {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private loaitudien:LoaitudienService,private fb:FormBuilder,private toarst:ToastrService) { }  
+  constructor(private loaitudien:LoaitudienService,private fb:FormBuilder,private toarst:ToastrService) { }
   // DATA SEARCH
   search = {
     sSearch : '',
     pageIndex : 0,
     pageSize : 10
   }
+  openCRUD = false;
   IdNull = GuidId.EmptyId;
   TotalItem:number;
   dataLoaiTuDien:FormGroup;
@@ -43,8 +44,8 @@ export class LoaitudienComponent implements OnInit  {
     this.search.pageIndex = event.pageIndex;
     this.search.pageSize = event.pageSize;
     this.getPage();
-    
-    
+
+
   }
   // GET PAGE LOAI TU DIEN
   getPage(){
@@ -54,7 +55,7 @@ export class LoaitudienComponent implements OnInit  {
         this.TotalItem = res.total;
         this.dataSource = ELEMENT_DATA;
         this.dataSource.paginator = this.paginator;
-        
+
       },
       err => {
         console.log(err);
@@ -62,6 +63,8 @@ export class LoaitudienComponent implements OnInit  {
       }
     )
   }
+
+
   SelectRow(item){
     console.log(item);
     this.dataLoaiTuDien = this.fb.group({
@@ -69,7 +72,7 @@ export class LoaitudienComponent implements OnInit  {
       MaLoai: item.maLoai,
       Ten: item.ten
     })
-    
+    this.openCRUD = true;
   }
   // SUA LOAI TU DIEN
   // THEM LOAI TU DIEN

@@ -1,0 +1,45 @@
+<h2>THÊM/ SỬA / XÓA</h2>
+<form autocomplete="off">
+
+  <div class="row">
+    <div class="col">
+      <mat-form-field *ngIf="false">
+        <mat-label>GUID</mat-label>
+        <input matInput [(ngModel)]="TuDien.Id" name="ten" name="Id">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Mã loại từ điển</mat-label>
+        <input matInput [(ngModel)]="TuDien.CMLoaiTuDien" name="CMLoaiTuDien">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Mã loại từ điển</mat-label>
+        <input matInput [(ngModel)]="TuDien.Ten" name="Ten">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Mã loại từ điển</mat-label>
+        <input matInput [(ngModel)]="TuDien.GhiChu" name="GhiChu">
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <mat-form-field>
+        <mat-label>Mã loại từ điển</mat-label>
+        <input matInput [(ngModel)]="TuDien.TenNgan" name="TenNgan">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Mã loại từ điển</mat-label>
+        <input matInput [(ngModel)]="TuDien.Active" name="Active">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Mã loại từ điển</mat-label>
+        <input matInput [(ngModel)]="TuDien.UuTien" name="UuTien">
+      </mat-form-field>
+    </div>
+  </div>
+  <br>
+  <button mat-raised-button color="primary" (click)="CreateOrUpdate()" *ngIf="TuDien.Id == IdNull">Thêm</button>
+  <button mat-raised-button (click)="CreateOrUpdate()" *ngIf="TuDien.Id != IdNull">Sửa</button>
+  <button mat-raised-button color="warn" (click)="Clear()">Xóa</button>
+  <button mat-raised-button class="float-right" color="warn" (click)="ClosePopup()">Huy</button>
+</form>

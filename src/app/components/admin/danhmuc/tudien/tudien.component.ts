@@ -6,119 +6,146 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-
-
+import { MatDialog } from '@angular/material/dialog';
+import { PopTuDien, TuDien } from './popup/tudien.popup';
 
 @Component({
   selector: 'app-tudien',
   templateUrl: './tudien.component.html',
-  styleUrls: ['./tudien.component.css']
+  styleUrls: ['./tudien.component.css'],
 })
 export class TudienComponent implements OnInit {
-
-  displayedColumns: string[] = ['stt', 'ma', 'tenloai', 'tenngan','ten','ghichu','uutien','active','action'];
-  dataSource :any;
+  displayedColumns: string[] = [
+    'stt',
+    'ma',
+    'tenloai',
+    'tenngan',
+    'ten',
+    'ghichu',
+    'uutien',
+    'active',
+    'action',
+  ];
+  dataSource: any;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  constructor(private tudien:TudienService,private fb:FormBuilder,private toarst:ToastrService) { }  
+  IdNull = GuidId.EmptyId;
+  TotalItem: number;
+  dataTuDien: FormGroup;
+  dataRes: Array<LoaiTuDien>;
+  dataSelect:TuDien;
+  constructor(
+    private tudien: TudienService,
+    private fb: FormBuilder,
+    private toarst: ToastrService,
+    private diaLog: MatDialog
+  ) {}
   // DATA SEARCH
   search = {
-    sSearch : '',
-    pageIndex : 0,
-    pageSize : 10
-  }
-  IdNull = GuidId.EmptyId;
-  TotalItem:number;
-  dataTuDien:FormGroup;
-  dataRes: Array<LoaiTuDien>;
+    sSearch: '',
+    pageIndex: 0,
+    pageSize: 10,
+  };
+
   ngOnInit(): void {
     this.getPage();
     this.dataTuDien = this.fb.group({
-      Id : this.IdNull,
-      MaLoai: "",
-      Ten: ""
+      Id: this.IdNull,
+      MaLoai: '',
+      Ten: '',
     });
   }
+
+  openDialog(){
+    const dialog = this.diaLog.open(PopTuDien, {
+      width:'60%',
+      height:'500px',
+      data:{ob:this.dataSelect},
+      disableClose :true,
+    });
+
+    dialog.afterClosed().subscribe(res=>{
+      this.dataTuDien = res;
+      console.log(res);
+    })
+  }
+
   // CHANGE PAGE INDEX OR PAGE SIZE
-  getPaginate(event){
+  getPaginate(event) {
     this.search.pageIndex = event.pageIndex;
     this.search.pageSize = event.pageSize;
     this.getPage();
-    
-    
   }
   // GET PAGE LOAI TU DIEN
-  getPage(){
-    this.tudien.GetPage((this.search)).subscribe(
-      (res:any)=>{
+  getPage() {
+    this.tudien.GetPage(this.search).subscribe(
+      (res: any) => {
         console.log(res);
 
         const ELEMENT_DATA = res.list;
         this.TotalItem = res.total;
         this.dataSource = ELEMENT_DATA;
         this.dataSource.paginator = this.paginator;
-        
       },
-      err => {
+      (err) => {
         console.log(err);
-
       }
-    )
+    );
   }
-  SelectRow(item){
+  SelectRow(item) {
     console.log(item);
     this.dataTuDien = this.fb.group({
-      Id : item.id,
+      Id: item.id,
       MaLoai: item.maLoai,
-      Ten: item.ten
-    })
-    
+      Ten: item.ten,
+    });
   }
   // SUA LOAI TU DIEN
   // THEM LOAI TU DIEN
-  CreateOrUpdate(){
-    if(this.dataTuDien.value.Id == this.IdNull){
+  CreateOrUpdate() {
+    if (this.dataTuDien.value.Id == this.IdNull) {
       this.tudien.Create(this.dataTuDien.value).subscribe(
-        (res)=>{
+        (res) => {
           this.getPage();
-          this.toarst.success("Cập nhật thành công !", "Thông báo");
+          this.toarst.success('Cập nhật thành công !', 'Thông báo');
         },
-        err =>{
+        (err) => {
           console.log(err);
-          this.toarst.error("Thao tác thất bại!", "Thông báo");
-        });
-    }
-    else{
+          this.toarst.error('Thao tác thất bại!', 'Thông báo');
+        }
+      );
+    } else {
       this.tudien.Update(this.dataTuDien.value).subscribe(
-        (res)=>{
+        (res) => {
           this.getPage();
-          this.toarst.success("Cập nhật thành công !", "Thông báo");
+          this.toarst.success('Cập nhật thành công !', 'Thông báo');
         },
-        err =>{
+        (err) => {
           console.log(err);
-          this.toarst.error("Thao tác thất bại!", "Thông báo");
-        });
+          this.toarst.error('Thao tác thất bại!', 'Thông báo');
+        }
+      );
     }
   }
 
-  DeleteById(id){
+  DeleteById(id) {
     this.tudien.Delete(id).subscribe(
-      (res)=>{
+      (res) => {
         this.getPage();
-        this.toarst.success("Cập nhật thành công !", "Thông báo");
+        this.toarst.success('Cập nhật thành công !', 'Thông báo');
       },
-      err =>{
+      (err) => {
         console.log(err);
-        this.toarst.error("Thao tác thất bại!", "Thông báo");
-      });
+        this.toarst.error('Thao tác thất bại!', 'Thông báo');
+      }
+    );
   }
   //
-  Clear(){
+  Clear() {
     this.dataTuDien = this.fb.group({
-      Id : this.IdNull,
-      MaLoai: "",
-      Ten: ""
+      Id: this.IdNull,
+      MaLoai: '',
+      Ten: '',
     });
   }
 }

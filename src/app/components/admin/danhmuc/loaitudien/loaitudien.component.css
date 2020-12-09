@@ -3,9 +3,11 @@ button {
 }
 .table{
   width: 50%;
+  border-radius: 10px;
 }
 table{
   width: 100%;
+
 }
 mat-form-field{
   width: 60%;

@@ -11,7 +11,9 @@ export class LoaitudienService {
   GetPage(search){
     return this.http.post(environment.ApiUrl + this.baseUri +'/getPage', search);
   }
-
+  GetAll(){
+    return this.http.get(environment.ApiUrl + this.baseUri + '/getAll');
+  }
 
   Create(data){
     data.Id = GuidId.EmptyId;
